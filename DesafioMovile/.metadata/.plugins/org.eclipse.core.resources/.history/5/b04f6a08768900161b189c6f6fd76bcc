@@ -1,0 +1,74 @@
+package DAO;
+
+import hello.*;
+import DBO.*;
+import java.sql.*;
+import java.util.ArrayList;
+
+public class Dailies 
+{
+    //SISCOB
+    //boston
+    private MeuPreparedStatement connection;
+    
+    public Dailies(String driver, String strCon, String user, String senha) throws ClassNotFoundException, SQLException
+    {
+        this.connection = new MeuPreparedStatement(driver, strCon, user, senha);
+    }
+    public Dailies(MeuPreparedStatement con)
+    {
+    	this.connection = con;
+    }
+    
+    public void insert(Daily d) throws SQLException
+    {
+        String q = "INSERT INTO dashboard_daily VALUES('" +
+                d.getInserted_date() + "', " + 
+                d.getCarrier_id() + ", '" +
+                d.getCarrier_name() + "', " +
+                d.getApplication_id() +  ", '" +
+                d.getApplication_name() +  "', " +
+                d.getPrice_value() +  ", " +
+                d.getCarrier_gross_revenue_value() +  ", " +
+                d.isActive_base_total() +  ", " +
+                d.isNew_subscriber_total() +  ", " +
+                d.isCancelation_total() +  ", " +
+                d.getCancellation_type() + ")";
+        
+        connection.execute(q);
+    }
+    
+    public ArrayList<Daily> select(int day) throws SQLException
+    {
+        String q = "SELECT * FROM dashboard_daily WHERE inserted_date = " + day;
+        connection.prepareStatement(q);
+        ResultSet rs = connection.executeQuery();
+        ArrayList<Daily> da = new ArrayList<Daily>();
+      /*  System.out.println(rs.next());
+        rs.first();*/
+        while(rs.next())
+        {
+        	System.out.println(rs.getString("cancellation_type").charAt(0));
+            Daily d = new Daily(
+                    rs.getString("inserted_date"),
+                    rs.getInt("carrier_id"),
+                    rs.getString("carrier_name"),
+                    rs.getInt("application_id"),
+                    rs.getString("application_name"),
+                    rs.getDouble("price_value"),
+                    rs.getDouble("carrier_gross_revenue_value"),
+                    rs.getInt("active_base_total"),
+                    rs.getBoolean("new_subscriber_total"),
+                    rs.getBoolean("cancelation_total"),
+                    rs.getString("cancellation_type").charAt(0));
+            
+            System.out.println("Criou daily");
+            da.add(d);
+           //ystem.out.println("Criou daily");
+            //return d;
+        }
+        return da;
+    }
+    
+    
+}

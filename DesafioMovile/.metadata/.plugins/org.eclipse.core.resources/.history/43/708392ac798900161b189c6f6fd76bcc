@@ -1,0 +1,27 @@
+package hello;
+
+public class item2 {
+	private int cancela;
+	private String nome;
+	private int dia;
+	public item2(int base, String nome, int dia)
+	{
+		this.base = base;
+		this.nome = nome;
+		this.dia  = dia;
+	}
+	public int getBase()
+	{
+		return base;
+	}
+	
+	public int getdia()
+	{
+		return dia;
+	}
+	public String getnome()
+	{
+		return nome;
+	}
+	
+}

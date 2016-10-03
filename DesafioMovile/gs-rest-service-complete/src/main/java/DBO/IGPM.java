@@ -1,0 +1,95 @@
+package DBO;
+
+public class IGPM 
+{
+    private int carrier_id;
+    private int application_id;
+    private double price_value;
+    private double carrier_tax;
+    private double share_movile;
+
+    public IGPM(int carrier_id, int application_id, double price_value, double carrier_tax, double share_movile) {
+        this.carrier_id = carrier_id;
+        this.application_id = application_id;
+        this.price_value = price_value;
+        this.carrier_tax = carrier_tax;
+        this.share_movile = share_movile;
+    }
+
+    public int getCarrier_id() {
+        return carrier_id;
+    }
+
+    public int getApplication_id() {
+        return application_id;
+    }
+
+    public double getPrice_value() {
+        return price_value;
+    }
+
+    public double getCarrier_tax() {
+        return carrier_tax;
+    }
+
+    public double getShare_movile() {
+        return share_movile;
+    }
+
+    public void setCarrier_id(int carrier_id) {
+        this.carrier_id = carrier_id;
+    }
+
+    public void setApplication_id(int application_id) {
+        this.application_id = application_id;
+    }
+
+    public void setPrice_value(double price_value) {
+        this.price_value = price_value;
+    }
+
+    public void setCarrier_tax(double carrier_tax) {
+        this.carrier_tax = carrier_tax;
+    }
+
+    public void setShare_movile(double share_movile) {
+        this.share_movile = share_movile;
+    }
+
+    @Override
+    public String toString() {
+        return "IGPM{" + "carrier_id=" + carrier_id + ", application_id=" + application_id + ", price_value=" + price_value + ", carrier_tax=" + carrier_tax + ", share_movile=" + share_movile + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final IGPM other = (IGPM) obj;
+        if (this.carrier_id != other.carrier_id) {
+            return false;
+        }
+        if (this.application_id != other.application_id) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.price_value) != Double.doubleToLongBits(other.price_value)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.carrier_tax) != Double.doubleToLongBits(other.carrier_tax)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.share_movile) != Double.doubleToLongBits(other.share_movile)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+}

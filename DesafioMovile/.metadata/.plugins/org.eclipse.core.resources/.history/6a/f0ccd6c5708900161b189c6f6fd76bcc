@@ -1,0 +1,100 @@
+package hello;
+import java.util.ArrayList;
+
+import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import DAO.Dailies;
+import DBO.Daily;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class GreetingController {
+
+    private static final String template = "Hello, %s!";
+    private final AtomicLong counter = new AtomicLong();
+    private MeuPreparedStatement comando;
+    
+    private float calcularReceita(float carrier_gross_Revenue_Total, float carrier_Tax, float share_Movile)
+    {
+    	return carrier_gross_Revenue_Total * carrier_Tax * share_Movile;
+    }
+    
+    @RequestMapping("/conectaUser")
+    public boolean conecta()        //conectanobanco
+    {
+    	 MeuPreparedStatement comando;
+         
+         
+         try {
+         comando = new MeuPreparedStatement (
+    				        "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    				        "jdbc:sqlserver://regulus;databasename=SISCOB",
+    				        "SISCOB", "boston");
+         
+         }
+         catch (Exception e)
+         {
+             return false;
+         }
+         return true;
+    }
+    
+    
+    @RequestMapping(value = "api/query/2", method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<Daily>> cancelamento(@RequestParam (value = "day") int day) throws Exception
+    {
+    	return (new Dailies(comando)).select(day));
+    }
+    
+    /*
+    @RequestMapping(value = "api/query/3", method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<>>
+    {
+    	
+    }*/
+@RequestMapping(value = "/api/query/1", method = RequestMethod.GET)
+public ResponseEntity<ArrayList<Cidade>> getBaseAtivaDia(@RequestParam(value="day") int day) throws Exception 
+{
+	ArrayList<Cidade> lista = new ArrayList<Cidade>();
+	try
+	{
+	lista.add(new Cidade(1, day, "Campinas"));
+	lista.add(new Cidade(1, day*5, "itu"));
+	}
+	catch(Exception e)
+	{
+		return new ResponseEntity<ArrayList<Cidade>>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	return new ResponseEntity<ArrayList<Cidade>>(lista,HttpStatus.OK);
+}
+
+/*
+ *    @CrossOrigin
+    @RequestMapping(value = "/getConsultas",method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<Consulta>> getConsultas() throws Exception {
+        ArrayList<Consulta> consultas = null;
+    	try{
+          consultas = this.consultas.getConsultas("idPaciente = "+this.paciente.getId());
+        }
+        catch (Exception e){
+          return new ResponseEntity<ArrayList<Consulta>>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<ArrayList<Consulta>>(consultas,HttpStatus.OK);
+    }
+ * 
+ * */
+}
